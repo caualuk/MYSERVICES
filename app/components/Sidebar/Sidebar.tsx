@@ -9,6 +9,7 @@ import {
 } from "react-icons/md";
 import { GrTransaction } from "react-icons/gr";
 import { CgProfile } from "react-icons/cg";
+import { MdOutlineDesignServices } from "react-icons/md";
 
 interface SidebarProps {
   onOpenRadius: () => void;
@@ -24,7 +25,7 @@ export default function Sidebar({ onOpenRadius }: SidebarProps) {
 
   const menuItems = [
     {
-      label: "Dashboard",
+      label: "Início",
       icon: MdSpaceDashboard,
       href: "/home",
       category: "OVERVIEW",
@@ -53,6 +54,12 @@ export default function Sidebar({ onOpenRadius }: SidebarProps) {
       action: "open-radius-modal",
       category: "OVERVIEW",
     },
+    {
+      label: "Serviços",
+      icon: MdOutlineDesignServices,
+      href: "/services",
+      category: "OVERVIEW",
+    }
   ];
 
   // const friends = [
@@ -82,7 +89,7 @@ export default function Sidebar({ onOpenRadius }: SidebarProps) {
       <nav className="flex-1 overflow-y-auto">
         <div className="px-4 py-6">
           <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">
-            Overview
+            Visão Geral
           </h3>
 
           <div className="space-y-2">

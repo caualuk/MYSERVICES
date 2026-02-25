@@ -7,6 +7,7 @@ import Sidebar from "../components/Sidebar/Sidebar";
 import FilterDropdown from "./_components/Filter";
 import NearbyEmployees from "../components/Employee/NearbyEmployees";
 import RadiusModal from "../components/RadiusModal/RadiusModal";
+import SearchEmployees from "../components/Search/SearchEmployees";
 
 export default function EmployeesPage() {
   const [isRadiusOpen, setIsRadiusOpen] = useState(false);
@@ -27,7 +28,6 @@ export default function EmployeesPage() {
         const data = await res.json();
 
         if (res.ok) {
-          // IMPORTANTE: não usar if(data.radius)
           setRadius(data.radius ?? null);
         }
       } catch (error) {
@@ -57,7 +57,7 @@ export default function EmployeesPage() {
         return;
       }
 
-      setRadius(newRadius); // só atualiza depois de salvar no banco
+      setRadius(newRadius);
     } catch (error) {
       console.error("Erro ao salvar raio:", error);
     }
@@ -68,14 +68,15 @@ export default function EmployeesPage() {
       <Sidebar onOpenRadius={() => setIsRadiusOpen(true)} />
 
       <main className="flex-1 flex flex-col">
-        <Header />
+        {/* Container da search - centralizado e responsivo */}
+        <div className="w-full flex justify-center pt-8 pb-4">
+          <SearchEmployees />
+        </div>
 
-        {/* Ajuste no espaçamento do FilterDropdown */}
         <div className="px-6 py-4">
           <FilterDropdown />
         </div>
 
-        {/* Área dos cards com espaçamento adequado */}
         <div className="flex-1">
           <NearbyEmployees radius={radius} />
         </div>
