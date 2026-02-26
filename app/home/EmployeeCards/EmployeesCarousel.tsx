@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import EmployeeCard from "./EmployeeCards";
+import LoadingSpinner from "../../components/Loading/LoadingSpinner";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 
 interface EmployeesCarouselProps {
@@ -70,7 +71,7 @@ export default function EmployeesCarousel({ radius }: EmployeesCarouselProps) {
   const hasNext = currentPage < totalPages - 1;
 
   if (loading) {
-    return <div className="text-center py-12 text-gray-500">Carregando...</div>;
+    return <LoadingSpinner fullScreen={false} message="Carregando..." />;
   }
 
   if (!employees.length) {

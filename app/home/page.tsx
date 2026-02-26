@@ -4,6 +4,7 @@ import Sidebar from "../components/Sidebar/Sidebar";
 import Header from "./Header";
 import CTA from "./Cards/CTA";
 import ProfileCard from "./Cards/ProfileCard";
+import LoadingSpinner from "../components/Loading/LoadingSpinner";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -70,11 +71,11 @@ export default function Home() {
   }, []);
 
   if (loading) {
-    return <div>Carregando...</div>;
+    return <LoadingSpinner fullScreen={true} message="Carregando..." />;
   }
 
   return (
-    <div className="min-h-screen bg-gray-200 flex">
+    <div className="h-screen bg-gray-200 flex overflow-hidden">
       {isRadiusOpen && (
         <RadiusModal
           onClose={() => setIsRadiusOpen(false)}
@@ -117,14 +118,16 @@ export default function Home() {
         />
       )}
       <Sidebar onOpenRadius={() => setIsRadiusOpen(true)} />
-      <main className="flex-1 flex flex-col">
+      <main className="flex-1 flex flex-col overflow-hidden">
         <Header />
-        <div className="relative p-8 flex gap-6 items-start">
-          <div className="flex flex-1 flex-col gap-10">
+        <div className="flex-1 p-8 pb-0 flex gap-6 overflow-hidden">
+          <div className="flex flex-1 flex-col gap-10 overflow-hidden">
             <CTA />
-            <EmployeesCarousel radius={radius} />
+            <div className="flex-1 overflow-hidden">
+              <EmployeesCarousel radius={radius} />
+            </div>
           </div>
-          <div className="w-[380px]">
+          <div className="w-[380px] h-full overflow-hidden pb-4">
             <ProfileCard />
           </div>
         </div>

@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from "react";
 import EmployeeCard from "../Employee/EmployeeCard";
+import LoadingSpinner from "../Loading/LoadingSpinner";
 
 interface NearbyEmployeesProps {
   radius: number | null;
@@ -56,7 +57,7 @@ export default function NearbyEmployees({ radius }: NearbyEmployeesProps) {
   }, [radius]);
 
   if (loading) {
-    return <div className="text-center py-12 text-gray-500">Carregando...</div>;
+    return <LoadingSpinner fullScreen={false} message="Carregando..." />;
   }
 
   if (!employees.length) {
@@ -65,7 +66,7 @@ export default function NearbyEmployees({ radius }: NearbyEmployeesProps) {
         <p className="text-lg font-medium">Nenhum funcionário disponível</p>
         <p className="text-sm text-gray-500 mt-2">
           {radius === null
-            ? "Clique em 'Alterar Raio' no menu para começar a busca" 
+            ? "Clique em 'Alterar Raio' no menu para começar a busca"
             : "Altere o raio para encontrar novos funcionários"}
         </p>
       </div>
@@ -73,7 +74,9 @@ export default function NearbyEmployees({ radius }: NearbyEmployeesProps) {
   }
 
   return (
-    <div className="w-full px-6"> {/* Adicionado padding lateral */}
+    <div className="w-full px-6">
+      {" "}
+      {/* Adicionado padding lateral */}
       <div className="mb-6 flex items-center justify-between">
         <h2 className="text-lg font-semibold text-gray-700">
           Funcionários Disponíveis
@@ -84,10 +87,10 @@ export default function NearbyEmployees({ radius }: NearbyEmployeesProps) {
           )}
         </h2>
         <span className="text-sm text-gray-500">
-          {employees.length} funcionário{employees.length !== 1 ? 's' : ''} encontrado{employees.length !== 1 ? 's' : ''}
+          {employees.length} funcionário{employees.length !== 1 ? "s" : ""}{" "}
+          encontrado{employees.length !== 1 ? "s" : ""}
         </span>
       </div>
-
       {/* Grid com 4 colunas em telas grandes */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {employees.map((employee) => (

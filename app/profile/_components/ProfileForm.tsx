@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import LoadingSpinner from "../../components/Loading/LoadingSpinner";
 
 type User = {
   id: number;
@@ -113,7 +114,7 @@ export default function ProfileForm() {
   }
 
   if (loading) {
-    return <div className="text-center py-8">Carregando...</div>;
+    return <LoadingSpinner fullScreen={false} message="Carregando..." />;
   }
 
   return (

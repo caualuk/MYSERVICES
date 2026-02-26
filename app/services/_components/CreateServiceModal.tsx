@@ -138,7 +138,7 @@ export default function CreateServiceModal({ onClose, setServices }: any) {
                     key={emp.id}
                     onClick={() => {
                       setEmployeeQuery(
-                        `${emp.id} - ${emp.name} | ${emp.profession} | ${emp.city}`,
+                        `${emp.id} - ${emp.name} | ${emp.profession} |  ${emp.city} | ${emp.state}`
                       );
                       setEmployees([]);
                       setSelectedEmployee(true);
@@ -154,7 +154,7 @@ export default function CreateServiceModal({ onClose, setServices }: any) {
                     </span>
                     <span className="text-gray-700"> - {emp.name}</span>
                     <span className="text-gray-500 text-xs ml-2">
-                      | {emp.profession} | {emp.city}
+                      | {emp.profession} | {emp.city} | {emp.state}
                     </span>
                   </li>
                 ))}

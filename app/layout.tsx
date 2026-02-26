@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Suspense } from "react";
+import LoadingSpinner from "./components/Loading/LoadingSpinner";
 
 export const metadata: Metadata = {
   title: "MyServices",
@@ -23,7 +25,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased">
-        {children}
+        <Suspense fallback={<LoadingSpinner />}>
+          {children}
+        </Suspense>
       </body>
     </html>
   );
