@@ -9,8 +9,8 @@ import FilterDropdown from "./_components/FilterDropDown";
 import SearchServices from "../components/Search/SearchServices";
 
 export default function ServicesPage() {
-  const [services, setServices] = useState([]);
-  const [filteredServices, setFilteredServices] = useState([]);
+  const [services, setServices] = useState<any[]>([]);
+  const [filteredServices, setFilteredServices] = useState<any[]>([]);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isRadiusModalOpen, setIsRadiusModalOpen] = useState(false); // Estado para o modal de raio
   const [currentFilter, setCurrentFilter] = useState("recent");
@@ -40,37 +40,49 @@ export default function ServicesPage() {
 
   // Função de filtro
   const applyFilter = (filterType: string, servicesList: any[]) => {
-    const sortedServices = [...servicesList];
-    
-    switch(filterType) {
+    let filtered = [...servicesList];
+
+    // Primeiro aplicar filtro por tipo (gastos/ganhos)
+    switch (filterType) {
+      case "gastos":
+        return filtered.filter((service) => service.added_as === "CLIENT");
+
+      case "ganhos":
+        return filtered.filter((service) => service.added_as === "EMPLOYEE");
+
+      // Se for ordenação, aplicar ordenação aos serviços filtrados
       case "recent":
-        return sortedServices.sort((a, b) => b.id - a.id);
-      
+        return filtered.sort((a, b) => b.id - a.id);
+
       case "oldest":
-        return sortedServices.sort((a, b) => a.id - b.id);
-      
+        return filtered.sort((a, b) => a.id - b.id);
+
       case "highest":
-        return sortedServices.sort((a, b) => b.value - a.value);
-      
+        return filtered.sort((a, b) => b.value - a.value);
+
       case "lowest":
-        return sortedServices.sort((a, b) => a.value - b.value);
-      
+        return filtered.sort((a, b) => a.value - b.value);
+
       default:
-        return sortedServices;
+        return filtered;
     }
   };
 
   // Função de busca
   const applySearch = (query: string, servicesList: any[]) => {
     if (!query.trim()) return servicesList;
-    
+
     const searchLower = query.toLowerCase();
-    
+
     return servicesList.filter((service) => {
-      const employeeMatch = service.employee_name?.toLowerCase().includes(searchLower);
-      const serviceMatch = service.profession_name?.toLowerCase().includes(searchLower);
+      const employeeMatch = service.employee_name
+        ?.toLowerCase()
+        .includes(searchLower);
+      const serviceMatch = service.profession_name
+        ?.toLowerCase()
+        .includes(searchLower);
       const idMatch = service.id?.toString().includes(searchLower);
-      
+
       return employeeMatch || serviceMatch || idMatch;
     });
   };
@@ -78,10 +90,10 @@ export default function ServicesPage() {
   // Efeito para aplicar filtro e busca quando mudar
   useEffect(() => {
     let result = [...services];
-    
+
     result = applySearch(searchQuery, result);
     result = applyFilter(currentFilter, result);
-    
+
     setFilteredServices(result);
   }, [currentFilter, services, searchQuery]);
 
@@ -123,10 +135,9 @@ export default function ServicesPage() {
 
       // Fecha o modal após salvar
       setIsRadiusModalOpen(false);
-      
+
       // Opcional: mostrar mensagem de sucesso
       console.log("Raio atualizado com sucesso!");
-      
     } catch (error) {
       console.error("Error updating radius:", error);
     }
@@ -142,7 +153,7 @@ export default function ServicesPage() {
           <div className="flex-1 flex justify-center mb-8">
             <SearchServices onSearch={handleSearch} />
           </div>
-          
+
           <div className="flex items-center justify-between mb-8">
             <button
               onClick={() => setIsCreateModalOpen(true)}
@@ -152,15 +163,15 @@ export default function ServicesPage() {
               Adicionar Serviço
             </button>
 
-            <FilterDropdown 
+            <FilterDropdown
               onFilterChange={handleFilterChange}
               currentFilter={currentFilter}
             />
           </div>
 
-          <ServicesTable 
-            services={filteredServices} 
-            setServices={setServices} 
+          <ServicesTable
+            services={filteredServices}
+            setServices={setServices}
           />
 
           {/* Modal de Criar Serviço */}

@@ -6,8 +6,10 @@ export default function CreateServiceModal({ onClose, setServices }: any) {
   const [form, setForm] = useState({
     employee_id: null,
     value: "",
+    added_as: "CLIENT", // CLIENT or EMPLOYEE
   });
 
+  const [mode, setMode] = useState<"CLIENT" | "EMPLOYEE">("CLIENT");
   const [employeeQuery, setEmployeeQuery] = useState("");
   const [employees, setEmployees] = useState([]);
   const [selectedEmployee, setSelectedEmployee] = useState(false);
@@ -38,9 +40,9 @@ export default function CreateServiceModal({ onClose, setServices }: any) {
     fetchUser();
   }, [token]);
 
-  // Buscar funcionários (autocomplete)
+  // Buscar funcionários (autocomplete) apenas quando modo CLIENT
   useEffect(() => {
-    if (selectedEmployee) return;
+    if (mode !== "CLIENT" || selectedEmployee) return;
 
     if (employeeQuery.length < 2) {
       setEmployees([]);
@@ -55,7 +57,7 @@ export default function CreateServiceModal({ onClose, setServices }: any) {
             headers: {
               Authorization: `Bearer ${token}`,
             },
-          }
+          },
         );
 
         const data = await res.json();
@@ -66,7 +68,7 @@ export default function CreateServiceModal({ onClose, setServices }: any) {
     }, 300);
 
     return () => clearTimeout(delay);
-  }, [employeeQuery, selectedEmployee]);
+  }, [employeeQuery, selectedEmployee, mode]);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -118,54 +120,101 @@ export default function CreateServiceModal({ onClose, setServices }: any) {
             />
           </div>
 
-          {/* Funcionário autocomplete */}
-          <div className="relative">
+          {/* Modo de contratação */}
+          <div className="mb-4">
             <label className="text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Funcionário
+              Você está contratando como?
             </label>
-
-            <input
-              type="text"
-              value={employeeQuery}
-              onChange={(e) => {
-                setEmployeeQuery(e.target.value);
-                setSelectedEmployee(false);
-                setForm({ ...form, employee_id: null });
-              }}
-              placeholder="Digite o nome do funcionário"
-              className="w-full mt-1.5 p-2.5 border border-gray-400 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
-            />
-
-            {employees.length > 0 && (
-              <ul className="absolute w-full bg-white border border-gray-200 rounded-lg mt-1 shadow-lg max-h-52 overflow-y-auto z-50">
-                {employees.map((emp: any) => (
-                  <li
-                    key={emp.id}
-                    onClick={() => {
-                      setEmployeeQuery(
-                        `${emp.id} - ${emp.name} | ${emp.profession} |  ${emp.city} | ${emp.state}`
-                      );
-                      setEmployees([]);
-                      setSelectedEmployee(true);
-                      setForm({
-                        ...form,
-                        employee_id: emp.id,
-                      });
-                    }}
-                    className="px-4 py-2.5 hover:bg-indigo-50 cursor-pointer text-sm border-b border-gray-100 last:border-0"
-                  >
-                    <span className="font-medium text-indigo-600">
-                      {emp.id}
-                    </span>
-                    <span className="text-gray-700"> - {emp.name}</span>
-                    <span className="text-gray-500 text-xs ml-2">
-                      | {emp.profession} | {emp.city} | {emp.state}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            )}
+            <div className="flex gap-4 mt-1">
+              <label className="inline-flex items-center">
+                <input
+                  type="radio"
+                  name="mode"
+                  value="CLIENT"
+                  checked={mode === "CLIENT"}
+                  onChange={() => {
+                    setMode("CLIENT");
+                    setForm({ ...form, added_as: "CLIENT", employee_id: null });
+                    setEmployeeQuery("");
+                    setSelectedEmployee(false);
+                  }}
+                  className="form-radio"
+                />
+                <span className="ml-2 text-sm">Cliente</span>
+              </label>
+              <label className="inline-flex items-center">
+                <input
+                  type="radio"
+                  name="mode"
+                  value="EMPLOYEE"
+                  checked={mode === "EMPLOYEE"}
+                  onChange={() => {
+                    setMode("EMPLOYEE");
+                    setForm({
+                      ...form,
+                      added_as: "EMPLOYEE",
+                      employee_id: null,
+                    });
+                    setEmployeeQuery("");
+                    setSelectedEmployee(false);
+                  }}
+                  className="form-radio"
+                />
+                <span className="ml-2 text-sm">Funcionário</span>
+              </label>
+            </div>
           </div>
+
+          {/* Funcionário autocomplete (apenas se for CLIENT) */}
+          {mode === "CLIENT" && (
+            <div className="relative">
+              <label className="text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Funcionário
+              </label>
+
+              <input
+                type="text"
+                value={employeeQuery}
+                onChange={(e) => {
+                  setEmployeeQuery(e.target.value);
+                  setSelectedEmployee(false);
+                  setForm({ ...form, employee_id: null });
+                }}
+                placeholder="Digite o nome do funcionário"
+                className="w-full mt-1.5 p-2.5 border border-gray-400 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+              />
+
+              {employees.length > 0 && (
+                <ul className="absolute w-full bg-white border border-gray-200 rounded-lg mt-1 shadow-lg max-h-52 overflow-y-auto z-50">
+                  {employees.map((emp: any) => (
+                    <li
+                      key={emp.id}
+                      onClick={() => {
+                        setEmployeeQuery(
+                          `${emp.id} - ${emp.name} | ${emp.profession} |  ${emp.city} | ${emp.state}`,
+                        );
+                        setEmployees([]);
+                        setSelectedEmployee(true);
+                        setForm({
+                          ...form,
+                          employee_id: emp.id,
+                        });
+                      }}
+                      className="px-4 py-2.5 hover:bg-indigo-50 cursor-pointer text-sm border-b border-gray-100 last:border-0"
+                    >
+                      <span className="font-medium text-indigo-600">
+                        {emp.id}
+                      </span>
+                      <span className="text-gray-700"> - {emp.name}</span>
+                      <span className="text-gray-500 text-xs ml-2">
+                        | {emp.profession} | {emp.city} | {emp.state}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
 
           {/* Valor */}
           <div>

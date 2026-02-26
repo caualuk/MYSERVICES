@@ -33,7 +33,7 @@ export default function Sidebar({ onOpenRadius }: SidebarProps) {
     {
       label: "Pagamentos",
       icon: GrTransaction,
-      href: "/inbox",
+      href: "/payments",
       category: "OVERVIEW",
     },
     {
