@@ -18,7 +18,7 @@ export default function ServiceRow({ service, setServices }) {
         {service.employee_name || '—'}
       </td>
       <td className="px-6 py-4 text-sm text-gray-500">
-        {service.profession_name || '—'}
+        {service.profession_name || service.profession || '—'}
       </td>
       <td className="px-6 py-4">
         <StatusButton service={service} setServices={setServices} />

@@ -122,9 +122,11 @@ export default function EmployeesCarousel({ radius }: EmployeesCarouselProps) {
                       key={employee.id}
                       name={employee.name}
                       profession={employee.profession}
+                      city={employee.city}
                       phone={employee.phone}
                       tags={[]}
                       profileColor={employee.profile_color || "#4F46E5"}
+                      
                     />
                   ))}
               </div>

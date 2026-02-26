@@ -1,8 +1,6 @@
 "use client";
 
 import SearchHome from "../components/Search/SearchHome";
-import { MdEmail } from "react-icons/md";
-import { FaBell } from "react-icons/fa";
 import Image from "next/image";
 
 export default function Header() {
@@ -20,14 +18,6 @@ export default function Header() {
 
           {/* RIGHT SIDE */}
           <div className="flex items-center gap-5">
-            
-            <button className="p-2 rounded-full hover:bg-white text-indigo-600 transition cursor-pointer">
-              <MdEmail size={24} />
-            </button>
-
-            <button className="p-2 rounded-full hover:bg-white text-indigo-600 transition cursor-pointer">
-              <FaBell size={24} />
-            </button>
 
             <div className="w-px h-6 bg-gray-300" />
 

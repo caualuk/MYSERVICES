@@ -207,7 +207,7 @@ export default function ProfileCard() {
 
       {/* Rating */}
       <div>
-        <p className="text-gray-700 text-sm mb-2">Nos conte sua experiência</p>
+        <p className="text-gray-700 text-sm mb-2">Sua avaliação:</p>
 
         <div className="bg-white rounded-full px-3 py-2 flex items-center justify-between shadow border border-indigo-600">
           <div className="flex gap-1">

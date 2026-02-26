@@ -92,6 +92,7 @@ export default function RegisterForm() {
       }
 
       alert("Registrado com sucesso!");
+      window.location.href = "/login";
       console.log(data);
     } catch (err) {
       console.error(err);

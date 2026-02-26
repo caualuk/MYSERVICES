@@ -7,6 +7,7 @@ interface EmployeeCardProps {
   phone: string;
   tags: string[];
   profileColor?: string;
+  city?: string;
 }
 
 export default function EmployeeCard({
@@ -15,6 +16,7 @@ export default function EmployeeCard({
   phone,
   tags,
   profileColor = "#4F46E5",
+  city,
 }: EmployeeCardProps) {
   function getInitials(name: string) {
     return name
@@ -80,6 +82,7 @@ export default function EmployeeCard({
           <div>
             <h3 className="font-semibold text-lg">{firstName}</h3>
             <p className="text-indigo-200 text-sm">{profession}</p>
+            {city && <p className="text-indigo-200 text-xs">{city}</p>}
           </div>
         </div>
 

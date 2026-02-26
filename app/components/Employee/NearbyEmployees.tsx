@@ -101,6 +101,7 @@ export default function NearbyEmployees({ radius }: NearbyEmployeesProps) {
             phone={employee.phone}
             tags={[]}
             profileColor={employee.profile_color || "#4F46E5"}
+            city={employee.city}
           />
         ))}
       </div>

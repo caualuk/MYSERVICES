@@ -51,6 +51,11 @@ export default function CreateServiceModal({ onClose, setServices }: any) {
       try {
         const res = await fetch(
           `http://localhost:8000/users/employees/search?q=${employeeQuery}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
 
         const data = await res.json();
