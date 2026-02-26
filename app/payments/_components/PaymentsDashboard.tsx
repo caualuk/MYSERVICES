@@ -4,7 +4,7 @@
 import { useEffect, useState } from "react";
 import { LineChart, PieChart } from "./Charts";
 import { MetricsCard } from "./MetricsCard";
-import { PaymentsTable } from "./PaymentsTable";
+import { ActiveServicesTable } from "./ActiveServicesTable";
 import Sidebar from "@/app/components/Sidebar/Sidebar";
 import { FilterBar } from "./FilterBar";
 
@@ -163,9 +163,9 @@ export function PaymentsDashboard() {
             {/* Integrations Table */}
             <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 mb-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                Histórico de Serviços
+                Serviços Ativos
               </h3>
-              <PaymentsTable />
+              <ActiveServicesTable role={role} />
             </div>
 
             {/* Footer */}
